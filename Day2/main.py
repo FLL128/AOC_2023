@@ -1,7 +1,7 @@
 file = open("input.txt","r")
 lines = file.read().split("\n")
 
-# Task 1
+# Part 1
 total = 0
 for line in lines:
     game = line.split(":")[1]
@@ -18,7 +18,7 @@ for line in lines:
     if possible: total += int(line.split(":")[0][4:])
 print(total)
 
-# Task 2
+# Part 2
 total = 0
 for line in lines:
     game = line.split(":")[1]
