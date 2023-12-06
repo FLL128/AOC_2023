@@ -16,10 +16,5 @@ print(total)
 # Part 2
 time = int(lines[0].split(":")[1:][0].replace(" ",""))
 distance = int(lines[1].split(":")[1:][0].replace(" ",""))
-for i in range(0,time,int(math.sqrt(time))):
-    if (time-i)*i > distance:
-        for j in range(i-int(math.sqrt(time)),i+1,1):
-            if (time-j)*j > distance:
-                print(time-j*2+1)
-                break
-        break
+cutoff = int((time-math.sqrt(time*time-4*distance))/2)
+print(time-cutoff*2-1)
