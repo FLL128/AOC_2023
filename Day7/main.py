@@ -3,15 +3,13 @@ lines = file.read().split("\n")
 
 # Part 1
 def isFive(cards):
-    if cards[0]==cards[1] and cards[1]==cards[2] and cards[2]==cards[3] and cards[3]==cards[4]: return True
+    if cards[0] == cards[1] == cards[2] == cards[3] == cards[4]: return True
     return False
 
 def isFour(cards):
-    if cards[0]==cards[1] and cards[1]==cards[2] and cards[2]==cards[3] and cards[3]!=cards[4]: return True
-    if cards[0]==cards[1] and cards[1]==cards[2] and cards[2]!=cards[3] and cards[2]==cards[4]: return True
-    if cards[0]==cards[1] and cards[1]!=cards[2] and cards[1]==cards[3] and cards[3]==cards[4]: return True
-    if cards[0]!=cards[1] and cards[0]==cards[2] and cards[2]==cards[3] and cards[3]==cards[4]: return True
-    if cards[0]!=cards[1] and cards[1]==cards[2] and cards[2]==cards[3] and cards[3]==cards[4]: return True
+    c_copy = sorted(cards)
+    if c_copy[0] == c_copy[1] == c_copy[2] == c_copy[3]: return True
+    if c_copy[1] == c_copy[2] == c_copy[3] == c_copy[4]: return True
     return False
 
 def fullHouse(cards):
@@ -34,15 +32,15 @@ def isThree(cards):
     return a[1]==3 or b[1]==3 or c[1]==3
 
 def twoPair(cards):
-    copy = sorted(cards)
-    if copy[0]==copy[1] and copy[2]==copy[3]: return True
-    if copy[0]==copy[1] and copy[3]==copy[4]: return True
-    if copy[1]==copy[2] and copy[3]==copy[4]: return True
+    c_copy = sorted(cards)
+    if c_copy[0]==c_copy[1] and c_copy[2]==c_copy[3]: return True
+    if c_copy[0]==c_copy[1] and c_copy[3]==c_copy[4]: return True
+    if c_copy[1]==c_copy[2] and c_copy[3]==c_copy[4]: return True
     return False
 
 def onePair(cards):
-    copy = sorted(cards)
-    return copy[0]==copy[1] or copy[1]==copy[2] or copy[2]==copy[3] or copy[3]==copy[4]
+    c_copy = sorted(cards)
+    return c_copy[0]==c_copy[1] or c_copy[1]==c_copy[2] or c_copy[2]==c_copy[3] or c_copy[3]==c_copy[4]
 
 total = 0
 for i in range(len(lines)):
