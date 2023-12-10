@@ -66,7 +66,7 @@ for i in range(len(lines)):
             break
     if found: break
     
-# Part 2 between 317 and 489, not 369
+# Part 2
 newlines = []
 for i in range(len(lines)):
     sub1 = ""
@@ -110,6 +110,26 @@ for i in range(len(lines)):
     newlines.append(list(sub2))
     newlines.append(list(sub3))
 
+# Non recursive version
+total = 0
+for i in range(len(newlines)):
+    j=0
+    pr = False
+    while j<len(newlines[0]):
+        if newlines[i][j]=="X":
+            a=newlines[i-1][j]+newlines[i+1][j]
+            while newlines[i][j]=="X": j+=1
+            b=newlines[i-1][j-1]+newlines[i+1][j-1]
+            if a[0]=="X"==b[1] or a[1]=="X"==b[0]:
+                pr = not pr
+            j=j-1
+        elif pr and i%3==1 and j%3==1:
+            total += 1
+        j+=1
+print(total)
+
+# Recursive (first) solution
+'''
 def rec(x,y,d):
     if d>90: 
         rest.append([x,y])
@@ -134,3 +154,4 @@ for i in range(1,len(newlines),3):
     for j in range(1,len(newlines[0]),3):
         if newlines[i][j] not in "XO": total+=1
 print(total)
+'''
