@@ -4,9 +4,11 @@ lines = file.read().split("\n")
 # Part 1
 found=False
 loop = []
+coords = []
 for i in range(len(lines)):
     for j in range(len(lines[i])):
         if lines[i][j]=="S":
+            coords.append([i,j])
             d=""
             if i>0 and lines[i-1][j] in "F7|":
                 i=i-1
@@ -21,6 +23,7 @@ for i in range(len(lines)):
                 j=j+1
                 d="r"
             while lines[i][j] != "S":
+                coords.append([i,j])
                 loop.append(lines[i][j])
                 if d=="u":
                     if lines[i][j]=="F":
@@ -64,71 +67,6 @@ for i in range(len(lines)):
     if found: break
     
 # Part 2 between 317 and 489, not 369
-found=False
-loop = []
-coords = []
-for i in range(len(lines)):
-    for j in range(len(lines[i])):
-        if lines[i][j]=="S":
-            d=""
-            if i>0 and lines[i-1][j] in "F7|":
-                i=i-1
-                d="u"
-            elif j>0 and lines[i][j-1] in "F-L":
-                j=j-1
-                d="l"
-            elif i<len(lines)-1 and lines[i+1][j] in "J|L":
-                i=i+1
-                d="d"
-            else:
-                j=j+1
-                d="r"
-            while lines[i][j] != "S":
-                loop.append(lines[i][j])
-                coords.append([i,j])
-                if d=="u":
-                    if lines[i][j]=="F":
-                        j=j+1
-                        d="r"
-                    elif lines[i][j]=="7":
-                        j=j-1
-                        d="l"
-                    else:
-                        i=i-1
-                elif d=="d":
-                    if lines[i][j]=="L":
-                        j=j+1
-                        d="r"
-                    elif lines[i][j]=="J":
-                        j=j-1
-                        d="l"
-                    else:
-                        i=i+1
-                elif d=="r":
-                    if lines[i][j]=="J":
-                        i=i-1
-                        d="u"
-                    elif lines[i][j]=="7":
-                        i=i+1
-                        d="d"
-                    else:
-                        j=j+1
-                else:
-                    if lines[i][j]=="F":
-                        i=i+1
-                        d="d"
-                    elif lines[i][j]=="L":
-                        i=i-1
-                        d="u"
-                    else:
-                        j=j-1
-            print(int((len(loop)+1)/2))
-            loop.append(lines[i][j])
-            coords.append([i,j])
-            found = True
-            break
-    if found: break
-
 newlines = []
 for i in range(len(lines)):
     sub1 = ""
