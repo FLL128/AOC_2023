@@ -111,7 +111,40 @@ for i in range(len(lines)):
     newlines.append(list(sub3))
 
 '''
-# Non recursive version - this would require S to be replaced with the correct letter, not just stars.
+Non recursive version - this would require S to be replaced with the correct letter, not just stars.
+This would mean replacing the lines:
+            else:
+                sub1+="XxX"
+                sub2+="XxX"
+                sub3+="XxX"
+with the lines:
+            else:
+                if lines[i-1][j] in "F7|":
+                    sub1 += ' X '
+                    if lines[i][j-1] in "F-L":
+                        sub2 += 'XX '
+                        sub3 += '   '
+                    elif lines[i+1][j] in "J|L":
+                        sub2 += ' X '
+                        sub3 += ' X '
+                    else:
+                        sub2 += ' XX'
+                        sub3 += '   '          
+                elif lines[i+1][j] in "J|L":
+                    sub3 += ' X '
+                    if lines[i][j-1] in "F-L":
+                        sub2 += 'XX '
+                        sub1 += '   '
+                    else:
+                        sub2 += ' XX'
+                        sub1 += '   ' 
+                else:
+                    sub1 += '   '
+                    sub2 += 'XxX'
+                    sub3 += '   '
+'''
+
+'''
 total = 0
 for i in range(len(newlines)):
     j=0
@@ -130,6 +163,7 @@ for i in range(len(newlines)):
         j+=1
 print(total)
 '''
+
 
 # Recursive (first) solution
 def rec(x,y,d):
