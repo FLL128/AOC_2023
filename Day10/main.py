@@ -110,7 +110,8 @@ for i in range(len(lines)):
     newlines.append(list(sub2))
     newlines.append(list(sub3))
 
-# Non recursive version
+'''
+# Non recursive version - this would require S to be replaced with the correct letter, not just stars.
 total = 0
 for i in range(len(newlines)):
     j=0
@@ -125,11 +126,12 @@ for i in range(len(newlines)):
             j=j-1
         elif pr and i%3==1 and j%3==1:
             total += 1
+            newlines[i][j]="I"
         j+=1
 print(total)
+'''
 
 # Recursive (first) solution
-'''
 def rec(x,y,d):
     if d>90: 
         rest.append([x,y])
@@ -154,4 +156,3 @@ for i in range(1,len(newlines),3):
     for j in range(1,len(newlines[0]),3):
         if newlines[i][j] not in "XO": total+=1
 print(total)
-'''
