@@ -1,9 +1,6 @@
-import functools
-
-
 file = open("input.txt","r")
 lines = file.read().split("\n")
-new_lines = lines.copy()
+
 # Part 1
 total = 0
 for i in range(len(lines)):
@@ -22,8 +19,6 @@ for i in range(len(lines)):
 print(total)
 
 # Part 2
-lines = new_lines
-@functools.cache
 def turn(lines):
     lines = list(lines)
     for i in range(len(lines)):
@@ -64,17 +59,15 @@ def turn(lines):
         lines[i] = "".join(lines[i])
     return tuple(lines)
 
-@functools.cache
-def outer(lines):
-    for i in range(10000):
-        lines = turn(lines)
-    return lines
-
-# Yes, I could save them and check for loops, but why do that when you can just tell python to cache it :D
+patterns = []
+i = 0
 lines = tuple(lines)
-for z in range(100000):
-    lines = outer(lines)
-        
+while lines not in patterns:
+    patterns.append(lines)
+    lines = turn(lines)
+    i+=1
+start = patterns.index(lines)
+lines = patterns[(1000000000-start)%(i-start)+start]
 total = 0
 for i in range(len(lines)):
     for j in range(len(lines[0])):
