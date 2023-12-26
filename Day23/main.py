@@ -27,36 +27,62 @@ for path in finished_paths:
 print(longest)
 
 # Part 2
-paths = [(0,1,0,[(0,1)],(0,1))]
-finished_paths = []
-storage = []
-bla = 0
-longest = 0
-while paths != [] or storage != []:
-    if len(paths) > 1000:
-        storage = storage + paths[500:]
-        paths = paths[:500]
-    elif paths == []:
-        paths = storage[:500]
-        storage = storage[500:]
-        bla = len(storage)
-    x,y,length,path,origin = paths.pop(0)
-    path = path.copy()
-    if x>0 and (grid[x-1][y]+grid[x][y-1]+grid[x+1][y]+grid[x][y+1]).count("#")!=2:
-        path.append((x,y))
-    if x > 0 and grid[x-1][y] in "^v<>." and (x-1,y) not in path+[origin]:
-        paths.append((x-1,y,length+1,path,(x,y)))
-    if y > 0 and grid[x][y-1] in "^v<>." and (x,y-1) not in path+[origin]:
-        paths.append((x,y-1,length+1,path,(x,y)))
-    if x < len(grid)-1 and grid[x+1][y] in "^v<>." and (x+1,y) not in path+[origin]:
-        if x+1 == len(grid)-1 and y == len(grid[0])-2:
-            finished_paths.append(length+1)
-            longest = max(longest, length+1)
-            print(longest, len(paths),bla)
-        else:
-            paths.append((x+1,y,length+1,path,(x,y)))
-    if y < len(grid[0])-1 and grid[x][y+1] in "^v<>." and (x,y+1) not in path+[origin]:
-        paths.append((x,y+1,length+1,path,(x,y)))
-print(len(storage))
+def findPath(start, end):
+    x,y = start
+    paths = [[x,y,1,(x,y)]]
+    while paths != []:
+        x,y,length,path = paths.pop(0)
+        if x > 0:
+            if (x-1,y) == end: return length
+            if (x-1,y) != path and grid[x-1][y] == ".":
+                paths.append((x-1,y,length+1,(x,y)))
+        if y > 0:
+            if (x,y-1) == end: return length
+            if (x,y-1) != path and grid[x][y-1] == ".":
+                paths.append((x,y-1,length+1,(x,y)))
+        if x < len(grid)-1:
+            if (x+1,y) == end: return length
+            if (x+1,y) != path and grid[x+1][y] == ".":
+                paths.append((x+1,y,length+1,(x,y)))
+        if y < len(grid[0])-1:
+            if (x,y+1) == end: return length
+            if (x,y+1) != path and grid[x][y+1] == ".":
+                paths.append((x,y+1,length+1,(x,y)))
+    return 0
 
+# Find all intersections plus start and end point
+paths = [(0,1,0,[(0,1)],(0,1))]
+intersections = [(0,1),(len(grid)-1, len(grid[0])-2)]
+hasPath = [[],[]]
+for x in range(1,len(grid)-1):
+    for y in range(1,len(grid[0])-1):
+        if grid[x][y] == "." and (grid[x-1][y]+grid[x][y-1]+grid[x+1][y]+grid[x][y+1]).count("#")<2:
+            intersections.append((x,y))
+            grid[x][y]="#"
+            hasPath.append([])
+        if grid[x][y] in "<>v^":
+            grid[x][y] = "."
+
+# Find their distances
+for i in range(len(intersections)):
+    for j in range(i+1,len(intersections)):
+        path = [intersections[i]]
+        if len(hasPath[i])<4:
+            length = findPath(intersections[i],intersections[j])
+            if length!=0:
+                hasPath[i].append((j,length))
+                hasPath[j].append((i,length))
+
+# Calculate the longest path from start to finish
+longest = 0
+paths = [[0,0,[0]]]
+while paths != []:
+    index, length, path = paths.pop()
+    if index == 1:
+        longest = max(longest,length)
+    else:
+        for e in hasPath[index]:
+            rec, dist = e
+            if rec not in path:
+                paths.append((rec,length+dist,path+[rec]))
 print(longest)
