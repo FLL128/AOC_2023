@@ -71,6 +71,7 @@ for brick in bricks:
             brick = (start,end)
 
 total = 0
+unsafe_indices = []
 for i in range(len(bricks)):
     remove_brick(bricks[i])
     safe = True
@@ -83,7 +84,28 @@ for i in range(len(bricks)):
                             empty = False
         if empty and start[2]>1:
             safe = False
+            unsafe_indices.append(i)
             break             
     if safe: total+=1
     place_brick(bricks[i])
+print(total)
+
+# Part 2
+total = 0
+for i in unsafe_indices:
+    removed = [i]
+    remove_brick(bricks[i])
+    for j in range(i+1,len(bricks)):
+        start,end = bricks[j]
+        empty = True
+        for k in range(start[0],end[0]+1): 
+                for l in range(start[1],end[1]+1):
+                        if grid[k][l][start[2]-1]:
+                            empty = False
+        if empty and start[2]>1:
+            removed.append(j)
+            remove_brick(bricks[j])
+            total += 1   
+    for index in removed:
+        place_brick(bricks[index])
 print(total)
