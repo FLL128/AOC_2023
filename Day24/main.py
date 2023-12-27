@@ -25,8 +25,6 @@ for i in range(len(lines)):
             ma = 400000000000000
             if mi <= Px <= ma and mi <= Py <= ma:
                 if ((x1 < Px and x2 > x1) or (x1 > Px and x2 < x1)) and \
-                    ((x3 < Px and x4 > x3) or (x3 > Px and x4 < x3)) and \
-                    ((y1 < Py and y2 > y1) or (y1 > Py and y2 < y1)) and \
-                    ((y3 < Py and y4 > y3) or (y3 > Py and y4 < y3)):
+                    ((x3 < Px and x4 > x3) or (x3 > Px and x4 < x3)):
                     total += 1
 print(total)
